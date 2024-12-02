@@ -1,0 +1,217 @@
+{
+    "tienda": {
+        "nombre": "Figaro Tech",
+        "categorias": [
+            {
+                "id": 1,
+                "nombre": "Electrónica",
+                "productos": [
+                    {
+                        "id": 101,
+                        "nombre": "Smartphone",
+                        "precio": 999.99,
+                        "descripcion": "El último smartphone del mercado.",
+                        "caracteristicas": {
+                            "pantalla": "6.5 pulgadas",
+                            "camara": "48 MP",
+                            "bateria": "4500 mAh"
+                        },
+                        "imagenes": ["imagen1.jpg", "imagen2.jpg"],
+                        "inventario": 10
+                    },
+                    {
+                        "id": 102,
+                        "nombre": "Tablet",
+                        "precio": 499.99,
+                        "descripcion": "Tablet de alto rendimiento para profesionales.",
+                        "caracteristicas": {
+                            "pantalla": "10 pulgadas",
+                            "almacenamiento": "128 GB",
+                            "bateria": "7000 mAh"
+                        },
+                        "imagenes": ["imagen3.jpg", "imagen4.jpg"],
+                        "inventario": 20
+                    },
+                    {
+                        "id": 103,
+                        "nombre": "Auriculares",
+                        "precio": 199.99,
+                        "descripcion": "Auriculares inalámbricos con cancelación de ruido.",
+                        "caracteristicas": {
+                            "autonomia": "30 horas",
+                            "bluetooth": "5.0"
+                        },
+                        "imagenes": ["imagen5.jpg", "imagen6.jpg"],
+                        "inventario": 15
+                    },
+                    {
+                        "id": 104,
+                        "nombre": "Smartwatch",
+                        "precio": 299.99,
+                        "descripcion": "Reloj inteligente con monitor de salud.",
+                        "caracteristicas": {
+                            "pantalla": "1.5 pulgadas",
+                            "resistencia": "50m sumergible",
+                            "sensores": "Oxígeno, ritmo cardíaco"
+                        },
+                        "imagenes": ["imagen7.jpg", "imagen8.jpg"],
+                        "inventario": 25
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "nombre": "Hogar",
+                "productos": [
+                    {
+                        "id": 201,
+                        "nombre": "Robot Aspiradora",
+                        "precio": 299.99,
+                        "descripcion": "Aspiradora inteligente para limpieza diaria.",
+                        "caracteristicas": {
+                            "autonomia": "90 minutos",
+                            "sensores": "Detección de obstáculos",
+                            "conectividad": "Wi-Fi"
+                        },
+                        "imagenes": ["imagen9.jpg", "imagen10.jpg"],
+                        "inventario": 12
+                    },
+                    {
+                        "id": 202,
+                        "nombre": "Freidora de Aire",
+                        "precio": 99.99,
+                        "descripcion": "Cocina saludable sin aceite.",
+                        "caracteristicas": {
+                            "capacidad": "4 litros",
+                            "potencia": "1500 W"
+                        },
+                        "imagenes": ["imagen11.jpg", "imagen12.jpg"],
+                        "inventario": 30
+                    },
+                    {
+                        "id": 203,
+                        "nombre": "Cafetera",
+                        "precio": 79.99,
+                        "descripcion": "Cafetera automática con molinillo integrado.",
+                        "caracteristicas": {
+                            "capacidad": "1.5 litros",
+                            "potencia": "1000 W",
+                            "funciones": "Espresso, Cappuccino"
+                        },
+                        "imagenes": ["imagen13.jpg", "imagen14.jpg"],
+                        "inventario": 18
+                    },
+                    {
+                        "id": 204,
+                        "nombre": "Plancha",
+                        "precio": 49.99,
+                        "descripcion": "Plancha a vapor con función antiadherente.",
+                        "caracteristicas": {
+                            "potencia": "2400 W",
+                            "depósito": "300 ml"
+                        },
+                        "imagenes": ["imagen15.jpg", "imagen16.jpg"],
+                        "inventario": 25
+                    }
+                ]
+            }
+        ],
+        "usuarios": [
+            {
+                "id": 1,
+                "nombre": "Juan Pérez",
+                "email": "juanperez@example.com",
+                "direccion": {
+                    "calle": "Calle Principal",
+                    "numero": 123,
+                    "ciudad": "Madrid",
+                    "pais": "España"
+                },
+                "historialCompras": [
+                    {
+                        "productoId": 101,
+                        "cantidad": 2,
+                        "fecha": "2023-11-14"
+                    },
+                    {
+                        "productoId": 201,
+                        "cantidad": 1,
+                        "fecha": "2023-10-10"
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "nombre": "María Gómez",
+                "email": "mariagomez@example.com",
+                "direccion": {
+                    "calle": "Avenida Secundaria",
+                    "numero": 456,
+                    "ciudad": "Barcelona",
+                    "pais": "España"
+                },
+                "historialCompras": [
+                    {
+                        "productoId": 102,
+                        "cantidad": 1,
+                        "fecha": "2023-11-20"
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "nombre": "Carlos Martínez",
+                "email": "carlosmartinez@example.com",
+                "direccion": {
+                    "calle": "Calle de la Luz",
+                    "numero": 789,
+                    "ciudad": "Valencia",
+                    "pais": "España"
+                },
+                "historialCompras": [
+                    {
+                        "productoId": 103,
+                        "cantidad": 2,
+                        "fecha": "2023-09-25"
+                    }
+                ]
+            },
+            {
+                "id": 4,
+                "nombre": "Ana López",
+                "email": "analopez@example.com",
+                "direccion": {
+                    "calle": "Calle del Sol",
+                    "numero": 321,
+                    "ciudad": "Sevilla",
+                    "pais": "España"
+                },
+                "historialCompras": [
+                    {
+                        "productoId": 202,
+                        "cantidad": 1,
+                        "fecha": "2023-08-18"
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "nombre": "Luis Fernández",
+                "email": "luisfernandez@example.com",
+                "direccion": {
+                    "calle": "Calle de la Luna",
+                    "numero": 654,
+                    "ciudad": "Bilbao",
+                    "pais": "España"
+                },
+                "historialCompras": [
+                    {
+                        "productoId": 204,
+                        "cantidad": 1,
+                        "fecha": "2023-07-12"
+                    }
+                ]
+            }
+        ]
+    }
+}
