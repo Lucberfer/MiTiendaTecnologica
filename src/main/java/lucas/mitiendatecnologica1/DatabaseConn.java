@@ -1,7 +1,7 @@
 package lucas.mitiendatecnologica1;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -83,99 +83,4 @@ public class DatabaseConn {
         }
     }
 
-    // Insert data from JSON file
-    public static void insertDataFromJson(String jsonFilePath) {
-        try (Connection conn = connect()) {
-            // Load JSON from the resources folder
-            InputStream inputStream = DatabaseConn.class.getClassLoader().getResourceAsStream(jsonFilePath);
-            if (inputStream == null) {
-                System.err.println("No se pudo encontrar el archivo JSON en la ruta: " + jsonFilePath);
-                return;
-            }
 
-            // Read JSON file content
-            String jsonString = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            JSONObject jsonObject = new JSONObject(jsonString);
-
-            // Insert users
-            JSONArray users = jsonObject.getJSONObject("tienda").getJSONArray("usuarios");
-            for (int i = 0; i < users.length(); i++) {
-                JSONObject user = users.getJSONObject(i);
-                insertUser(
-                        user.getInt("id"),
-                        user.getString("nombre"),
-                        user.getString("email"),
-                        user.getJSONObject("direccion").getString("calle") + " " + user.getJSONObject("direccion").getInt("numero") + ", "
-                                + user.getJSONObject("direccion").getString("ciudad") + ", " + user.getJSONObject("direccion").getString("pais")
-                );
-            }
-
-            // Insert categories and products
-            JSONArray categories = jsonObject.getJSONObject("tienda").getJSONArray("categorias");
-            for (int i = 0; i < categories.length(); i++) {
-                JSONObject category = categories.getJSONObject(i);
-                insertCategory(category.getInt("id"), category.getString("nombre"));
-
-                JSONArray products = category.getJSONArray("productos");
-                for (int j = 0; j < products.length(); j++) {
-                    JSONObject product = products.getJSONObject(j);
-                    insertProduct(
-                            product.getInt("id"),
-                            category.getInt("id"),
-                            product.getString("nombre"),
-                            product.getDouble("precio"),
-                            product.getString("descripcion"),
-                            product.getInt("inventario")
-                    );
-                }
-            }
-
-            System.out.println("Datos del JSON volcados correctamente.");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Insert a user
-    private static void insertUser(int idUser, String name, String email, String address) {
-        String query = "INSERT OR IGNORE INTO user (idUser, name, email, address) VALUES (?, ?, ?, ?)";
-        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, idUser);
-            pstmt.setString(2, name);
-            pstmt.setString(3, email);
-            pstmt.setString(4, address);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Insert a category
-    private static void insertCategory(int idCategory, String name) {
-        String query = "INSERT OR IGNORE INTO category (idCategory, name) VALUES (?, ?)";
-        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, idCategory);
-            pstmt.setString(2, name);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Insert a product
-    private static void insertProduct(int idProduct, int idCategory, String name, double prize, String description, int stock) {
-        String query = "INSERT OR IGNORE INTO product (idProduct, idCategory, name, prize, description, stock) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, idProduct);
-            pstmt.setInt(2, idCategory);
-            pstmt.setString(3, name);
-            pstmt.setDouble(4, prize);
-            pstmt.setString(5, description);
-            pstmt.setInt(6, stock);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-}
