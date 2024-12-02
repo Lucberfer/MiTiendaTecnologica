@@ -16,7 +16,7 @@
                             "camara": "48 MP",
                             "bateria": "4500 mAh"
                         },
-                        "imagenes": ["imagen1.jpg", "imagen2.jpg"],
+                        "imagenes": ["smartphone.jpg"],
                         "inventario": 10
                     },
                     {
@@ -29,7 +29,7 @@
                             "almacenamiento": "128 GB",
                             "bateria": "7000 mAh"
                         },
-                        "imagenes": ["imagen3.jpg", "imagen4.jpg"],
+                        "imagenes": ["tablet.jpg"],
                         "inventario": 20
                     },
                     {
@@ -41,7 +41,7 @@
                             "autonomia": "30 horas",
                             "bluetooth": "5.0"
                         },
-                        "imagenes": ["imagen5.jpg", "imagen6.jpg"],
+                        "imagenes": ["auriculares.jpg"],
                         "inventario": 15
                     },
                     {
@@ -54,7 +54,7 @@
                             "resistencia": "50m sumergible",
                             "sensores": "Oxígeno, ritmo cardíaco"
                         },
-                        "imagenes": ["imagen7.jpg", "imagen8.jpg"],
+                        "imagenes": ["smartwatch.jpg"],
                         "inventario": 25
                     }
                 ]
@@ -73,7 +73,7 @@
                             "sensores": "Detección de obstáculos",
                             "conectividad": "Wi-Fi"
                         },
-                        "imagenes": ["imagen9.jpg", "imagen10.jpg"],
+                        "imagenes": ["robotAspiradora.jpg"],
                         "inventario": 12
                     },
                     {
@@ -85,7 +85,7 @@
                             "capacidad": "4 litros",
                             "potencia": "1500 W"
                         },
-                        "imagenes": ["imagen11.jpg", "imagen12.jpg"],
+                        "imagenes": ["airFrier.jpg"],
                         "inventario": 30
                     },
                     {
@@ -98,7 +98,7 @@
                             "potencia": "1000 W",
                             "funciones": "Espresso, Cappuccino"
                         },
-                        "imagenes": ["imagen13.jpg", "imagen14.jpg"],
+                        "imagenes": ["cafetera.jpg"],
                         "inventario": 18
                     },
                     {
@@ -110,7 +110,7 @@
                             "potencia": "2400 W",
                             "depósito": "300 ml"
                         },
-                        "imagenes": ["imagen15.jpg", "imagen16.jpg"],
+                        "imagenes": ["plancha.jpg"],
                         "inventario": 25
                     }
                 ]
