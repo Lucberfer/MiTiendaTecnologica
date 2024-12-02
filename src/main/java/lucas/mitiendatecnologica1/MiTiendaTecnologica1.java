@@ -22,7 +22,7 @@ public class MiTiendaTecnologica1 {
         for (User user : users) {
             System.out.println(user);
         }
-
+        // shiiit
         System.out.println("\nPrograma ejecutado correctamente.");
     }
 }
