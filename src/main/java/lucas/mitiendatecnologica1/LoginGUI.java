@@ -11,12 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginGUI {
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            LoginFrame loginFrame = new LoginFrame();
-//            loginFrame.setVisible(true);
-//        });
-//    }
+    // La clase principal LoginGUI ya no contiene el método `main`, se inicia desde `MiTiendaTecnologica1`
 }
 
 class LoginFrame extends JFrame {
@@ -121,24 +116,20 @@ class LoginFrame extends JFrame {
 
     private void validateAndLogin(String name, String email) {
         try (Connection connection = DatabaseConn.connect()) {
-            // Verificar si el usuario ya existe
             String checkUserQuery = "SELECT COUNT(*) FROM user WHERE email = ?";
             PreparedStatement checkStmt = connection.prepareStatement(checkUserQuery);
             checkStmt.setString(1, email);
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next() && rs.getInt(1) > 0) {
-                // Si el usuario ya existe, permitir el acceso
                 JOptionPane.showMessageDialog(this, "Bienvenido de nuevo, " + name + ".", "Inicio de Sesión Exitoso", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                // Si el usuario no existe, agregarlo a la base de datos
                 addUserToDB(name, email);
                 JOptionPane.showMessageDialog(this, "Registro exitoso. Bienvenido, " + name + ".", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
             }
 
-            // Iniciar la interfaz principal
             openMainGUI();
-            dispose(); // Cerrar la ventana de inicio de sesión
+            dispose();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -174,7 +165,6 @@ class LoginFrame extends JFrame {
             }
         }
     }
-
 
     private void openMainGUI() {
         MiTiendaTecnologica1.openMainGUI();

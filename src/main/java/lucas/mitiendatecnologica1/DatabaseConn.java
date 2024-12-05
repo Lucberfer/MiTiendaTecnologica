@@ -20,10 +20,11 @@ public class DatabaseConn {
         }
     }
 
-    // Create tables
-    public static void createTables() {
+    // Create tables or modify them if needed
+    public static void createOrUpdateTables() {
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
 
+            // Create Users Table
             String createUsersTable = """
                     CREATE TABLE IF NOT EXISTS user (
                         idUser INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,6 +34,7 @@ public class DatabaseConn {
                     );
                     """;
 
+            // Create Categories Table
             String createCategoriesTable = """
                     CREATE TABLE IF NOT EXISTS category (
                         idCategory INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,6 +42,7 @@ public class DatabaseConn {
                     );
                     """;
 
+            // Create Products Table
             String createProductsTable = """
                     CREATE TABLE IF NOT EXISTS product (
                         idProduct INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,6 +55,7 @@ public class DatabaseConn {
                     );
                     """;
 
+            // Create Record Table
             String createRecordTable = """
                     CREATE TABLE IF NOT EXISTS record (
                         idRecord INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -64,12 +68,23 @@ public class DatabaseConn {
                     );
                     """;
 
+            // Execute the table creation commands
             stmt.execute(createUsersTable);
             stmt.execute(createCategoriesTable);
             stmt.execute(createProductsTable);
             stmt.execute(createRecordTable);
 
-            System.out.println("Tablas creadas correctamente.");
+            // Add 'inventario' column if it does not exist in 'product' table
+            try {
+                String addInventoryColumn = "ALTER TABLE product ADD COLUMN inventario INTEGER DEFAULT 0";
+                stmt.execute(addInventoryColumn);
+                System.out.println("Columna 'inventario' añadida a la tabla 'product'.");
+            } catch (SQLException e) {
+                // If the column already exists, an exception will be thrown which can be ignored.
+                System.out.println("La columna 'inventario' ya existe en la tabla 'product' o no se pudo añadir.");
+            }
+
+            System.out.println("Tablas creadas o modificadas correctamente.");
 
         } catch (SQLException e) {
             e.printStackTrace();
