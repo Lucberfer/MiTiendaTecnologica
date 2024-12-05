@@ -18,4 +18,11 @@ public class MiTiendaTecnologica1 {
             loginFrame.setVisible(true);
         });
     }
+
+    public static void openMainGUI() {
+        SwingUtilities.invokeLater(() -> {
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setVisible(true);
+        });
+    }
 }

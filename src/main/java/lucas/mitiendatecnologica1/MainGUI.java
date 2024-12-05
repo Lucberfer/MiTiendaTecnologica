@@ -31,7 +31,7 @@ class MainFrame extends JFrame {
     public MainFrame() {
         setTitle("Figaro Tech - Main");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 1000);
+        setSize(800, 900);
         setLayout(null);
         getContentPane().setBackground(new Color(35, 44, 55));
         setLocationRelativeTo(null);
@@ -74,7 +74,7 @@ class MainFrame extends JFrame {
             logoLabel.setBounds(20, 10, 100, 100);
             return logoLabel;
         } else {
-            JLabel logoLabel = new JLabel("Logo not found", SwingConstants.CENTER);
+            JLabel logoLabel = new JLabel("Logo no encontrado", SwingConstants.CENTER);
             logoLabel.setBounds(20, 10, 100, 100);
             logoLabel.setForeground(Color.WHITE);
             return logoLabel;
