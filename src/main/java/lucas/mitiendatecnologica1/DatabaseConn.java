@@ -50,7 +50,7 @@ public class DatabaseConn {
                         name VARCHAR(60) NOT NULL,
                         price REAL NOT NULL,
                         description VARCHAR(1000),
-                        inventario INTEGER NOT NULL,
+                        inventary INTEGER NOT NULL,
                         FOREIGN KEY (idCategory) REFERENCES category(idCategory)
                     );
                     """;
