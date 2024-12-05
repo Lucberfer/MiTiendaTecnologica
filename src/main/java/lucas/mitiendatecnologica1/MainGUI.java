@@ -200,19 +200,40 @@ class MainFrame extends JFrame {
                 }
 
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }
 
     private void loadUserInfo() {
 
+        try (Connection connection = DatabaseConn.connect(); PreparedStatement statement = connection.prepareStatement("SELECT name, email, address FROM user ORDER BY idUser DESC LIMIT 1")) {
+            ResultSet resultSet = statement.executeQuery();
 
+            if (resultSet.next()) {
+
+                String userInfo = "NOMBRE: " + resultSet.getString("name") + "\nEMAIL: " + resultSet.getString("email") + "\nDIRECCIÓN: " + resultSet.getString("address");
+                userInfoArea.setText(userInfo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadPurchaseRecord() {
 
+        try (Connection connection = DatabaseConn.connect(); PreparedStatement statement = connection.prepareStatement("SELECT p.name, r.quantity, r.date FROM record r JOIN product p ON r.idProduct = p.idProduct WHERE r.idUser = (SELECT idUser FROM user ORDER BY idUser DESC LIMIT 1)")) {
 
+            ResultSet resultSet = statement.executeQuery();
+            StringBuilder history = new StringBuilder("Nombre\tCANTIDAD\tFECHA\n");
+            while (resultSet.next()) {
+                history.append(resultSet.getString("name")).append("\t").append(resultSet.getInt("quantity")).append("\t").append(resultSet.getString("date")).append("\n");
+            }
+
+            purchaseRecordArea.setText(history.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private class  BuyButtonActionListener implements ActionListener {
@@ -220,6 +241,48 @@ class MainFrame extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
 
+            String selectedProduct = (String) productComboBox.getSelectedItem();
+            int quantity;
+            try {
+                quantity = Integer.parseInt(quantifyField.getText());
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(MainFrame.this, "Introduce una cantidad válida.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (selectedProduct != null && quantity > 0) {
+
+                try (Connection connection = DatabaseConn.connect()) {
+                    connection.setAutoCommit(false);
+
+                    // Update inventory
+                    PreparedStatement updateInventory = connection.prepareStatement("UPDATE product SET inventory = inventory - ? WHERE name = ? AND inventory >= ?");
+                    updateInventory.setInt(1, quantity);
+                    updateInventory.setString(2, selectedProduct);
+                    updateInventory.setInt(3, quantity);
+                    int rowsUpdated = updateInventory.executeUpdate();
+
+                    if (rowsUpdated > 0) {
+
+                        // Insert record
+                        PreparedStatement insertRecord = connection.prepareStatement("INSERT INTO record (idUser, idProduct, quantity, date) VALUES ((SELECT idUser FROM user ORDER BY idUser DESC LIMIT 1), (SELECT idProduct FROM product WHERE name = ?), ?, DATE('now'))");
+                        insertRecord.setString(1, selectedProduct);
+                        insertRecord.setInt(2, quantity);
+                        insertRecord.executeUpdate();
+
+                        connection.commit();
+                        JOptionPane.showMessageDialog(MainFrame.this, "Compra realizada correctamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                        loadPurchaseRecord();
+
+                    } else {
+                        JOptionPane.showMessageDialog(MainFrame.this, "No hay suficientes articulos en el inventario.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         }
     }
 }
