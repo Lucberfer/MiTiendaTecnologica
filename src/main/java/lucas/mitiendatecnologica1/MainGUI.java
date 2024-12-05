@@ -257,7 +257,7 @@ class MainFrame extends JFrame {
                         JOptionPane.showMessageDialog(MainFrame.this, "No hay suficientes artículos en el inventario.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (SQLException ex) {
-                    ex.printStackTrace();// Esto es una prueba
+                    ex.printStackTrace();
                 }
             }
         }
