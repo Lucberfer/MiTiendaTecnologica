@@ -1,13 +1,14 @@
 package lucas.mitiendatecnologica1;
 
+// Class representing a product in the store
 public class Product {
 
-    private int id; // Product ID
-    private String name; // Product name
-    private double price; // Product price
-    private int inventario; // Product inventory
+    private int id; // ID of the product
+    private String name; // Name of the product
+    private double price; // Price of the product
+    private int inventario; // Inventory count for the product
 
-    // Constructor to initialize Product attributes
+    // Constructor to initialize Product
     public Product(int id, String name, double price, int inventario) {
         this.id = id;
         this.name = name;
@@ -15,36 +16,43 @@ public class Product {
         this.inventario = inventario;
     }
 
-    // Getters and setters for the attributes
+    // Getter for ID
     public int getId() {
-        return id; // Get product ID
+        return id;
     }
 
+    // Setter for ID
     public void setId(int id) {
-        this.id = id; // Set product ID
+        this.id = id;
     }
 
+    // Getter for name
     public String getName() {
-        return name; // Get product name
+        return name;
     }
 
+    // Setter for name
     public void setName(String name) {
-        this.name = name; // Set product name
+        this.name = name;
     }
 
+    // Getter for price
     public double getPrice() {
-        return price; // Get product price
+        return price;
     }
 
+    // Setter for price
     public void setPrice(double price) {
-        this.price = price; // Set product price
+        this.price = price;
     }
 
+    // Getter for inventory
     public int getInventario() {
-        return inventario; // Get product inventory
+        return inventario;
     }
 
+    // Setter for inventory
     public void setInventario(int inventario) {
-        this.inventario = inventario; // Set product inventory
+        this.inventario = inventario;
     }
 }

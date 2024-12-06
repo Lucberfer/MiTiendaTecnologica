@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public class JsonToDatabaseLoader {
 
-    // Method to load JSON data into the database
+    // Method to load initial data from the JSON file to the database
     public static void loadJsonData() {
         Connection connection = null;
 
@@ -25,18 +25,18 @@ public class JsonToDatabaseLoader {
             JSONParser parser = new JSONParser();
             JSONObject jsonObject = (JSONObject) parser.parse(new InputStreamReader(is));
 
-            // Verificar si el objeto JSON no es null
+            // Verify if the parsed JSON is null
             if (jsonObject == null) {
                 throw new RuntimeException("El JSON parseado es null, revisa la estructura del archivo 'tech.json'.");
             }
 
-            // Obtener el objeto 'tienda'
+            // Get the 'tienda' object
             JSONObject store = (JSONObject) jsonObject.get("tienda");
             if (store == null) {
                 throw new RuntimeException("No se encontró el objeto 'tienda' en el archivo JSON. Verifica la estructura del archivo 'tech.json'.");
             }
 
-            // Obtener las categorías y los usuarios
+            // Get categories and users arrays
             JSONArray categories = (JSONArray) store.get("categorias");
             if (categories == null) {
                 throw new RuntimeException("No se encontró el array 'categorias' en el objeto 'tienda' del archivo JSON.");
@@ -47,23 +47,22 @@ public class JsonToDatabaseLoader {
                 throw new RuntimeException("No se encontró el array 'usuarios' en el objeto 'tienda' del archivo JSON.");
             }
 
-            // Abrir conexión a la base de datos
+            // Open connection to the database
             connection = DatabaseConn.connect();
             connection.setAutoCommit(false);
 
-            // Insertar Categorías y Productos
+            // Insert categories and products
             for (Object categoryObj : categories) {
                 JSONObject category = (JSONObject) categoryObj;
                 String categoryName = (String) category.get("nombre");
 
-                // Insertar Categoría
+                // Insert category
                 String insertCategoryQuery = "INSERT INTO category (name) VALUES (?)";
                 try (PreparedStatement categoryStmt = connection.prepareStatement(insertCategoryQuery)) {
                     categoryStmt.setString(1, categoryName);
                     categoryStmt.executeUpdate();
                 }
-
-                // Insertar Productos
+                // Insert products associated with the category
                 JSONArray products = (JSONArray) category.get("productos");
                 if (products != null) {
                     for (Object productObj : products) {
@@ -72,10 +71,11 @@ public class JsonToDatabaseLoader {
                         double price = (double) product.get("precio");
                         String description = (String) product.get("descripcion");
 
-                        // Obtener inventario y manejar el valor nulo
+                        // Get inventory and handle null value
                         Long inventarioValue = (Long) product.get("inventario");
                         int inventario = (inventarioValue != null) ? inventarioValue.intValue() : 0;
 
+                        // Insert product data into the database
                         String insertProductQuery = "INSERT INTO product (idCategory, name, price, description, inventario) VALUES ((SELECT idCategory FROM category WHERE name = ?), ?, ?, ?, ?)";
                         try (PreparedStatement productStmt = connection.prepareStatement(insertProductQuery)) {
                             productStmt.setString(1, categoryName);
@@ -91,16 +91,17 @@ public class JsonToDatabaseLoader {
                 }
             }
 
-            // Insertar Usuarios y el Historial de Compras
+            // Insert users and their purchase history
             for (Object userObj : users) {
                 JSONObject user = (JSONObject) userObj;
                 String userName = (String) user.get("nombre");
                 String email = (String) user.get("email");
 
-                // Obtener dirección del usuario
+                // Get the user's address
                 JSONObject addressObj = (JSONObject) user.get("direccion");
                 String address = (addressObj != null) ? addressObj.get("calle") + " " + addressObj.get("numero") + ", " + addressObj.get("ciudad") + ", " + addressObj.get("pais") : "Sin dirección";
 
+                // Insert user data into the database
                 String insertUserQuery = "INSERT INTO user (name, email, address) VALUES (?, ?, ?)";
                 try (PreparedStatement userStmt = connection.prepareStatement(insertUserQuery)) {
                     userStmt.setString(1, userName);
@@ -109,7 +110,7 @@ public class JsonToDatabaseLoader {
                     userStmt.executeUpdate();
                 }
 
-                // Insertar Historial de Compras
+                // Insert user's purchase history
                 JSONArray purchaseHistory = (JSONArray) user.get("historialCompras");
                 if (purchaseHistory != null) {
                     for (Object purchaseObj : purchaseHistory) {
@@ -128,14 +129,14 @@ public class JsonToDatabaseLoader {
                 }
             }
 
-            // Commit de la transacción
+            // Commit transaction
             connection.commit();
             System.out.println("Datos iniciales cargados exitosamente.");
 
         } catch (SQLException e) {
             if (connection != null) {
                 try {
-                    connection.rollback(); // Rollback in case of error
+                    connection.rollback();
                     System.err.println("Transacción revertida debido a un error.");
                 } catch (SQLException rollbackEx) {
                     rollbackEx.printStackTrace();
@@ -148,10 +149,10 @@ public class JsonToDatabaseLoader {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // Cerrar la conexión
+            // Close the connection
             if (connection != null) {
                 try {
-                    connection.close(); // Close connection
+                    connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -159,3 +160,4 @@ public class JsonToDatabaseLoader {
         }
     }
 }
+

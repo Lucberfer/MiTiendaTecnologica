@@ -1,13 +1,14 @@
 package lucas.mitiendatecnologica1;
 
+// Class representing a user in the system
 public class User {
 
-    private int id; // User ID
-    private String name; // User name
-    private String email; // User email
-    private String address; // User address
+    private int id; // ID of the user
+    private String name; // Name of the user
+    private String email; // Email of the user
+    private String address; // Address of the user
 
-    // Constructor to initialize User attributes
+    // Constructor to initialize User
     public User(int id, String name, String email, String address) {
         this.id = id;
         this.name = name;
@@ -15,36 +16,43 @@ public class User {
         this.address = address;
     }
 
-    // Getters and setters for the attributes
+    // Getter for ID
     public int getId() {
-        return id; // Get user ID
+        return id;
     }
 
+    // Setter for ID
     public void setId(int id) {
-        this.id = id; // Set user ID
+        this.id = id;
     }
 
+    // Getter for name
     public String getName() {
-        return name; // Get user name
+        return name;
     }
 
+    // Setter for name
     public void setName(String name) {
-        this.name = name; // Set user name
+        this.name = name;
     }
 
+    // Getter for email
     public String getEmail() {
-        return email; // Get user email
+        return email;
     }
 
+    // Setter for email
     public void setEmail(String email) {
-        this.email = email; // Set user email
+        this.email = email;
     }
 
+    // Getter for address
     public String getAddress() {
-        return address; // Get user address
+        return address;
     }
 
+    // Setter for address
     public void setAddress(String address) {
-        this.address = address; // Set user address
+        this.address = address;
     }
 }

@@ -1,30 +1,34 @@
 package lucas.mitiendatecnologica1;
 
+// Class representing a category in the store
 public class Category {
 
-    private int id; // Category ID
-    private String name; // Category name
+    private int id; // ID of the category
+    private String name; // Name of the category
 
-    // Constructor to initialize Category attributes
+    // Constructor to initialize Category
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    // Getters and setters for the attributes
+    // Getter for ID
     public int getId() {
-        return id; // Get category ID
+        return id;
     }
 
+    // Setter for ID
     public void setId(int id) {
-        this.id = id; // Set category ID
+        this.id = id;
     }
 
+    // Getter for name
     public String getName() {
-        return name; // Get category name
+        return name;
     }
 
+    // Setter for name
     public void setName(String name) {
-        this.name = name; // Set category name
+        this.name = name;
     }
 }

@@ -11,15 +11,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginGUI {
-
+    // Empty main method removed to avoid redundant code
 }
 
 class LoginFrame extends JFrame {
 
-    private JTextField nameField; // Input field for user name
-    private JTextField emailField; // Input field for user email
+    private JTextField nameField;
+    private JTextField emailField;
 
-    // Constructor to set up the Login Frame properties
+    // Constructor to initialize the LoginFrame
     public LoginFrame() {
         setTitle("Fígaro Tech - Inicio de Sesión");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,34 +28,34 @@ class LoginFrame extends JFrame {
         getContentPane().setBackground(new Color(35, 44, 55));
         setLocationRelativeTo(null);
 
-        initComponents(); // Initialize components of the frame
+        initComponents(); // Initialize the UI components
     }
 
-    // Initialize all components of the login window
+    // Method to initialize components
     private void initComponents() {
-        JLabel logoLabel = createLogoLabel(); // Create logo
+        JLabel logoLabel = createLogoLabel();
         add(logoLabel);
 
-        JPanel panel = createMainPanel(); // Create main panel
+        JPanel panel = createMainPanel();
         add(panel);
 
-        JLabel nameLabel = createNameLabel(); // Create name label
+        JLabel nameLabel = createNameLabel();
         panel.add(nameLabel);
 
-        nameField = createNameField(); // Create name input field
+        nameField = createNameField();
         panel.add(nameField);
 
-        JLabel emailLabel = createEmailLabel(); // Create email label
+        JLabel emailLabel = createEmailLabel();
         panel.add(emailLabel);
 
-        emailField = createEmailField(); // Create email input field
+        emailField = createEmailField();
         panel.add(emailField);
 
-        JButton loginButton = createLoginButton(); // Create login button
+        JButton loginButton = createLoginButton();
         panel.add(loginButton);
     }
 
-    // Create main panel of the login form
+    // Method to create the main panel
     private JPanel createMainPanel() {
         JPanel panel = new JPanel();
         panel.setBounds(0, 150, 400, 250);
@@ -64,7 +64,7 @@ class LoginFrame extends JFrame {
         return panel;
     }
 
-    // Create the logo label for the login form
+    // Method to create the logo label
     private JLabel createLogoLabel() {
         URL logoURL = getClass().getClassLoader().getResource("FigaroTech.png");
         if (logoURL != null) {
@@ -83,7 +83,7 @@ class LoginFrame extends JFrame {
         }
     }
 
-    // Create the name label
+    // Method to create name label
     private JLabel createNameLabel() {
         JLabel nameLabel = new JLabel("NOMBRE: ");
         nameLabel.setBounds(40, 20, 80, 25);
@@ -91,14 +91,14 @@ class LoginFrame extends JFrame {
         return nameLabel;
     }
 
-    // Create the name input field
+    // Method to create name field
     private JTextField createNameField() {
         JTextField nameField = new JTextField();
         nameField.setBounds(120, 20, 150, 25);
         return nameField;
     }
 
-    // Create the email label
+    // Method to create email label
     private JLabel createEmailLabel() {
         JLabel emailLabel = new JLabel("EMAIL: ");
         emailLabel.setBounds(40, 60, 80, 25);
@@ -106,44 +106,40 @@ class LoginFrame extends JFrame {
         return emailLabel;
     }
 
-    // Create the email input field
+    // Method to create email field
     private JTextField createEmailField() {
         JTextField emailField = new JTextField();
         emailField.setBounds(120, 60, 150, 25);
         return emailField;
     }
 
-    // Create the login button and set the action listener for login logic
+    // Method to create login button
     private JButton createLoginButton() {
         JButton loginButton = new JButton("INICIO DE SESIÓN");
         loginButton.setBounds(125, 120, 140, 30);
         loginButton.setBackground(new Color(35, 44, 55));
         loginButton.setForeground(Color.WHITE);
-        loginButton.addActionListener(new LoginButtonActionListener()); // Attach action listener to the button
+        loginButton.addActionListener(new LoginButtonActionListener());
         return loginButton;
     }
 
-    // Method to validate if the user exists and proceed to login or register a new user
+    // Method to validate user credentials and handle login process
     private void validateAndLogin(String name, String email) {
         try (Connection connection = DatabaseConn.connect()) {
-            // Verificar si el usuario ya existe
             String checkUserQuery = "SELECT COUNT(*) FROM user WHERE email = ?";
             PreparedStatement checkStmt = connection.prepareStatement(checkUserQuery);
             checkStmt.setString(1, email);
             ResultSet rs = checkStmt.executeQuery();
 
             if (rs.next() && rs.getInt(1) > 0) {
-                // Si el usuario ya existe, permitir el acceso
                 JOptionPane.showMessageDialog(this, "Bienvenido de nuevo, " + name + ".", "Inicio de Sesión Exitoso", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                // Si el usuario no existe, agregarlo a la base de datos
                 addUserToDB(name, email);
                 JOptionPane.showMessageDialog(this, "Registro exitoso. Bienvenido, " + name + ".", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
             }
 
-            // Iniciar la interfaz principal
             openMainGUI();
-            dispose(); // Close login window
+            dispose();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -151,14 +147,14 @@ class LoginFrame extends JFrame {
         }
     }
 
-    // Method to add a new user to the database
+    // Method to add new user to the database
     private void addUserToDB(String name, String email) {
         try (Connection connection = DatabaseConn.connect()) {
             String query = "INSERT INTO user (name, email, address) VALUES (?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, name);
             statement.setString(2, email);
-            statement.setString(3, "No address provided"); // Set a default address if not provided
+            statement.setString(3, "No address provided");
             statement.executeUpdate();
             System.out.println("Usuario agregado a la base de datos.");
         } catch (SQLException e) {
@@ -167,7 +163,7 @@ class LoginFrame extends JFrame {
         }
     }
 
-    // Action listener for the login button to validate user data and proceed with login or registration
+    // Listener class to handle the login button action
     private class LoginButtonActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -175,14 +171,14 @@ class LoginFrame extends JFrame {
             String email = emailField.getText();
 
             if (!name.isEmpty() && !email.isEmpty()) {
-                validateAndLogin(name, email); // Validate and proceed with login
+                validateAndLogin(name, email);
             } else {
                 JOptionPane.showMessageDialog(LoginFrame.this, "Por favor, ingrese su nombre y email.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    // Method to open the main GUI after a successful login
+    // Method to open the main GUI after login
     private void openMainGUI() {
         MiTiendaTecnologica1.openMainGUI();
     }

@@ -5,14 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+// Utility class to manage database connection and setup
 public class DatabaseConn {
 
     private static final String URL = "jdbc:sqlite:tech.db"; // Database URL
 
-    // Method to connect to the database
+    // Method to establish a connection to the database
     public static Connection connect() {
         try {
-            return DriverManager.getConnection(URL); // Return connection to the database
+            return DriverManager.getConnection(URL);
         } catch (SQLException e) {
             System.err.println("Error al conectar con la base de datos");
             e.printStackTrace();
@@ -20,11 +21,11 @@ public class DatabaseConn {
         }
     }
 
-    // Method to create or update the tables in the database
+    // Method to create or update database tables
     public static void createOrUpdateTables() {
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
 
-            // SQL to create Users Table
+            // SQL statement to create the Users table if it doesn't exist
             String createUsersTable = """
                     CREATE TABLE IF NOT EXISTS user (
                         idUser INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,7 +35,7 @@ public class DatabaseConn {
                     );
                     """;
 
-            // SQL to create Categories Table
+            // SQL statement to create the Categories table if it doesn't exist
             String createCategoriesTable = """
                     CREATE TABLE IF NOT EXISTS category (
                         idCategory INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,7 +43,7 @@ public class DatabaseConn {
                     );
                     """;
 
-            // SQL to create Products Table
+            // SQL statement to create the Products table if it doesn't exist
             String createProductsTable = """
                     CREATE TABLE IF NOT EXISTS product (
                         idProduct INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,7 +56,7 @@ public class DatabaseConn {
                     );
                     """;
 
-            // SQL to create Record Table
+            // SQL statement to create the Record table if it doesn't exist
             String createRecordTable = """
                     CREATE TABLE IF NOT EXISTS record (
                         idRecord INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -68,20 +69,11 @@ public class DatabaseConn {
                     );
                     """;
 
-            // Execute SQL commands to create tables
+            // Execute the table creation commands
             stmt.execute(createUsersTable);
             stmt.execute(createCategoriesTable);
             stmt.execute(createProductsTable);
             stmt.execute(createRecordTable);
-
-            // Attempt to add 'inventario' column to 'product' table if it does not exist
-            try {
-                String addInventoryColumn = "ALTER TABLE product ADD COLUMN inventario INTEGER DEFAULT 0";
-                stmt.execute(addInventoryColumn);
-                System.out.println("Columna 'inventario' añadida a la tabla 'product'.");
-            } catch (SQLException e) {
-                System.out.println("La columna 'inventario' ya existe en la tabla 'product' o no se pudo añadir.");
-            }
 
             System.out.println("Tablas creadas o modificadas correctamente.");
 
