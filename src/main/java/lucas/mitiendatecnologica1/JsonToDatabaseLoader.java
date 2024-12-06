@@ -13,6 +13,7 @@ import java.sql.SQLException;
 
 public class JsonToDatabaseLoader {
 
+    // Method to load JSON data into the database
     public static void loadJsonData() {
         Connection connection = null;
 
@@ -75,7 +76,7 @@ public class JsonToDatabaseLoader {
                         Long inventarioValue = (Long) product.get("inventario");
                         int inventario = (inventarioValue != null) ? inventarioValue.intValue() : 0;
 
-                        String insertProductQuery = "INSERT INTO product (idCategory, name, price, description, inventary) VALUES ((SELECT idCategory FROM category WHERE name = ?), ?, ?, ?, ?)";
+                        String insertProductQuery = "INSERT INTO product (idCategory, name, price, description, inventario) VALUES ((SELECT idCategory FROM category WHERE name = ?), ?, ?, ?, ?)";
                         try (PreparedStatement productStmt = connection.prepareStatement(insertProductQuery)) {
                             productStmt.setString(1, categoryName);
                             productStmt.setString(2, productName);
@@ -96,6 +97,7 @@ public class JsonToDatabaseLoader {
                 String userName = (String) user.get("nombre");
                 String email = (String) user.get("email");
 
+                // Obtener dirección del usuario
                 JSONObject addressObj = (JSONObject) user.get("direccion");
                 String address = (addressObj != null) ? addressObj.get("calle") + " " + addressObj.get("numero") + ", " + addressObj.get("ciudad") + ", " + addressObj.get("pais") : "Sin dirección";
 
@@ -133,7 +135,7 @@ public class JsonToDatabaseLoader {
         } catch (SQLException e) {
             if (connection != null) {
                 try {
-                    connection.rollback();
+                    connection.rollback(); // Rollback in case of error
                     System.err.println("Transacción revertida debido a un error.");
                 } catch (SQLException rollbackEx) {
                     rollbackEx.printStackTrace();
@@ -149,7 +151,7 @@ public class JsonToDatabaseLoader {
             // Cerrar la conexión
             if (connection != null) {
                 try {
-                    connection.close();
+                    connection.close(); // Close connection
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
